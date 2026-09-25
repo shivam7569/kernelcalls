@@ -10,3 +10,8 @@ wheels/
 .venv
 .history
 .vscode
+.import_linter_cache
+.mypy_cache
+.ruff_cache
+src/kernelcalls/experiments
+src/kernelcalls/configs/local.yaml
