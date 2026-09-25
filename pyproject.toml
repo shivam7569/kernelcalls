@@ -36,3 +36,28 @@ torchvision = [
 dev = [
     "import-linter>=2.15",
 ]
+
+
+# import-linter settings
+
+[tool.importlinter]
+root_package = "kernelcalls"
+
+# Contract 1: Core is foundation; multimodal can import from vision, language or core; vision and language can import from core
+[[tool.importlinter.contracts]]
+name = "Core is foundational"
+type = "layers"
+layers = [
+    "kernelcalls.multimodal",
+    ["kernelcalls.vision", "kernelcalls.langauge"],
+    "kernelcalls.core"
+]
+
+# Contract 2: vision and language models are independent and cannot import from each other
+[[tool.importlinter.contracts]]
+name = "Domain modules are independent"
+type = "independence"
+modules = [
+    "kernelcalls.vision",
+    "kernelcalls.langauge"
+]
