@@ -35,6 +35,8 @@ torchvision = [
 [dependency-groups]
 dev = [
     "import-linter>=2.15",
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
 ]
 
 
@@ -61,3 +63,21 @@ modules = [
     "kernelcalls.vision",
     "kernelcalls.language"
 ]
+
+# mypy settings
+
+[tool.mypy]
+python_version = 3.13
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = [
+    "torch.*",
+    "cv2.*"
+]
+ignore_missing_imports = true

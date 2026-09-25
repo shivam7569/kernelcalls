@@ -29,3 +29,6 @@ jobs:
 
     - name: Enforce architecture with Import Linter
       run: uv run lint-imports
+
+    - name: Run Type checking with Mypy
+      run: uv run mypy src
