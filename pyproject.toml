@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "loguru>=0.7.3",
+    "omegaconf>=2.3.1",
     "opencv-python>=5.0.0.93",
     "ruff>=0.16.8",
     "torch>=2.14.0",
