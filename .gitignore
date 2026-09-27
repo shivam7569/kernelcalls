@@ -15,3 +15,5 @@ wheels/
 .ruff_cache
 src/kernelcalls/experiments
 src/kernelcalls/configs/local.yaml
+workshop
+linting_checks.sh
