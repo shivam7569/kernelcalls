@@ -1,0 +1,5 @@
+experiment_name: "alexnet_training"
+task: classification
+model:
+  kwargs:
+    image_size: ${data.kwargs.image_size}

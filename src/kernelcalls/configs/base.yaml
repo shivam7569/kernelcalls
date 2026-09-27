@@ -1,0 +1,7 @@
+# repo-wide defaults shared by all the experiments in both domains
+
+callbacks:
+  checkpoint:
+    cadence: 5
+
+seed: 42

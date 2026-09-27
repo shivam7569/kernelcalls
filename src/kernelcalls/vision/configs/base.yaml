@@ -1,0 +1,6 @@
+# vision domain specific defaults
+
+domain: "vision"
+data:
+  kwargs:
+    image_size: 224
