@@ -3,11 +3,11 @@ from collections import OrderedDict
 import torch
 from torch import Tensor, nn
 
-from kernelcalls.core.registers import register_model
+from kernelcalls.core.registers import MODELS
 from kernelcalls.core.utils.io_utils import MetaWrapper
 
 
-@register_model("alexnet")
+@MODELS.register(name="alexnet")
 class AlexNet(nn.Module, metaclass=MetaWrapper):
     """
     `AlexNet` model for image classification based on the `paper <https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf>`_.
