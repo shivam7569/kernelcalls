@@ -39,7 +39,6 @@ torchvision = [
 dev = [
     "import-linter>=2.15",
     "mypy>=2.3.1",
-    "pre-commit>=4.6.2",
 ]
 
 
