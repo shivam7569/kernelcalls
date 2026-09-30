@@ -9,16 +9,14 @@ class ModelConfig:
 
 @dataclass
 class OptimizerConfig:
-    name: str = "AdamW"
-    lr: float = 1e-3
-    betas: tuple[float, float] = (0.9, 0.999)
-    eps: float = 1e-8
-    weight_decay: float = 1e-2
+    name: str
+    kwargs: dict = field(default_factory=dict)
 
 
 @dataclass
 class TrainerConfig:
-    epochs: int
+    epochs: int = 1  # to test the pipeline
+    device: str = "auto"
 
 
 @dataclass
@@ -34,6 +32,18 @@ class SchedulerConfig:
 
 
 @dataclass
+class TaskConfig:
+    name: str
+    kwargs: dict = field(default_factory=dict)
+
+
+@dataclass
+class LossConfig:
+    name: str
+    kwargs: dict = field(default_factory=dict)
+
+
+@dataclass
 class ExperimentConfig:
     """
     This config structure class is agnostic to domain. It must remain that way.
@@ -41,14 +51,15 @@ class ExperimentConfig:
 
     meta: dict
     domain: str
-    task: str
     experiment_name: str
     secrets: dict
     seed: int
     callbacks: dict
     model: ModelConfig
-    trainer: TrainerConfig
     scheduler: SchedulerConfig
     data: DataConfig
+    task: TaskConfig
+    optimizer: OptimizerConfig
+    trainer: TrainerConfig = field(default_factory=TrainerConfig)
+    loss: LossConfig | None = None
     experiment_dir: str = "."  # Overrides value from local.yaml (if present)
-    optimizer: OptimizerConfig = field(default_factory=OptimizerConfig)
