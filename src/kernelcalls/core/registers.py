@@ -1,28 +1,47 @@
 from collections.abc import Callable
+from typing import Any
 
-MODEL_REGISTER: dict[str, type] = {}
-DATA_REGISTER: dict[str, type] = {}
+from loguru import logger
 
 
-def register_model(name: str) -> Callable[[type], type]:
-    def wrapper(model_class: type) -> type:
-        if name in MODEL_REGISTER:
-            raise ValueError("Model already registered")
+class Registry:
+    def __init__(self, container: str) -> None:
+        self.container = container
+        setattr(self, container, {})
+
+    def register(self, name: str) -> Callable[[type], type]:
+        def wrapper(container_class: type) -> type:
+            if name in getattr(self, self.container):
+                logger.warning(
+                    f"{self.container.capitalize()} {name} is already registered. Continuing, but you may want to verify."
+                )
+            else:
+                getattr(self, self.container)[name] = container_class
+
+            return container_class
+
+        return wrapper
+
+    def get(self, name: str) -> Any:
+        if name in getattr(self, self.container):
+            return getattr(self, self.container)[name]
         else:
-            MODEL_REGISTER[name] = model_class
+            logger.error(
+                f"{self.container.capitalize()} {name} is not available. Please raise an issue on github. Here is the developed {self.container} list: \n{'\n'.join(getattr(self, self.container).keys())}"
+            )
+            raise ModuleNotFoundError(
+                f"{self.container.capitalize()} {name} not available!"
+            )
 
-        return model_class
+    def build(self, name: str, kwargs: Any = None) -> Any:
+        if kwargs is None:
+            kwargs = {}
+        _class = self.get(name)
+        return _class(**kwargs)
 
-    return wrapper
 
-
-def register_data(name: str) -> Callable[[type], type]:
-    def wrapper(data_class: type) -> type:
-        if name in DATA_REGISTER:
-            raise ValueError("Data already registered")
-        else:
-            DATA_REGISTER[name] = data_class
-
-        return data_class
-
-    return wrapper
+MODELS = Registry(container="model")
+DATASETS = Registry(container="dataset")
+LOSSES = Registry(container="loss")
+TASKS = Registry(container="task")
+OPTIMIZERS = Registry(container="optimizer")
