@@ -27,17 +27,3 @@ def log_config(cfg: DictConfig | ListConfig) -> None:
 
     formatted = json.dumps(data, indent=2, default=str)
     logger.info(f"Using the following experiment config values: \n{formatted}")
-
-
-def verify_model_existence(
-    imported_models: list[str], config: DictConfig | ListConfig
-) -> None:
-    if config.model.name in imported_models:
-        logger.info(
-            f"Imported model {config.model.name} for {config.domain} {config.task} task"
-        )
-    else:
-        logger.error(
-            f"Model {config.model.name} is not available. Please raise an issue on github. Here are the developed models: \n{'\n'.join(imported_models)}"
-        )
-        raise ModuleNotFoundError(f"Model {config.model.name} not available!")
